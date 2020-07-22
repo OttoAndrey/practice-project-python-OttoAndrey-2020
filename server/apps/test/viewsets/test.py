@@ -1,5 +1,5 @@
 from rest_framework.viewsets import GenericViewSet
-from rest_framework.viewsets import mixins
+from rest_framework import mixins
 
 from apps.test.models import Test
 from apps.test.serializers import TestSerializer
