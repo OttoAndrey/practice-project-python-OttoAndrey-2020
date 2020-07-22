@@ -19,3 +19,4 @@ class Test(models.Model):
     class Meta:
         verbose_name = 'Тест'
         verbose_name_plural = 'Тест'
+        ordering = ['id']
