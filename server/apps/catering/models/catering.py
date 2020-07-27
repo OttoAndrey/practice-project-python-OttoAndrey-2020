@@ -10,10 +10,10 @@ class Catering(models.Model):
     photo = models.ImageField(
         verbose_name='Фотография',
     )
-    open = models.TimeField(
+    open_time = models.TimeField(
         verbose_name='Открытие',
     )
-    close = models.TimeField(
+    close_time = models.TimeField(
         verbose_name='Закрытие',
     )
     address = models.CharField(
