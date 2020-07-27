@@ -46,4 +46,4 @@ class Catering(models.Model):
     class Meta:
         verbose_name = 'Заведение'
         verbose_name_plural = 'Заведение'
-        ordering = ['id']
+        ordering = ('id',)
