@@ -16,6 +16,7 @@ class CateringSerializer(ModelSerializer):
                   'avg_cost',
                   'longitude',
                   'latitude',
+                  'dishes',
                   'owner')
         extra_kwargs = {'avg_cost': {'read_only': True},
                         'longitude': {'read_only': True},
@@ -31,5 +32,6 @@ class CateringSerializer(ModelSerializer):
 
         validated_data['owner'] = self.context['request'].user
 
-        catering = Catering.objects.create(**validated_data)
+        catering = super().create(validated_data)
+
         return catering
