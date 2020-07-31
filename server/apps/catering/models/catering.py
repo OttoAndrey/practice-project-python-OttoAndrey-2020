@@ -1,6 +1,8 @@
 from django.contrib.auth.models import User
 from django.db import models
 
+from apps.dish.models import Dish
+
 
 class Catering(models.Model):
     name = models.CharField(
@@ -38,6 +40,10 @@ class Catering(models.Model):
         User,
         on_delete=models.CASCADE,
         verbose_name='Владелец',
+    )
+    dishes = models.ManyToManyField(
+        Dish,
+        verbose_name='Блюда'
     )
 
     def __str__(self):
