@@ -10,5 +10,13 @@ class DishSerializer(ModelSerializer):
                   'photo',
                   'sum_of_calories',
                   'price',
-                  'ingredients',)
-        extra_kwargs = {'sum_of_calories': {'read_only': True}, }
+                  'ingredients',
+                  'owner'
+                  )
+        extra_kwargs = {'sum_of_calories': {'read_only': True},
+                        'owner': {'read_only': True}, }
+
+    def create(self, validated_data):
+        validated_data['owner'] = self.context['request'].user
+
+        return super().create(validated_data)
