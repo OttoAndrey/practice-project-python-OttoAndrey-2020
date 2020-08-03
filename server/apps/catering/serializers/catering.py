@@ -32,6 +32,4 @@ class CateringSerializer(ModelSerializer):
 
         validated_data['owner'] = self.context['request'].user
 
-        catering = super().create(validated_data)
-
-        return catering
+        return super().create(validated_data)
