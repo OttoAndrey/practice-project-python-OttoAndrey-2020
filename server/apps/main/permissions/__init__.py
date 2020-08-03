@@ -1,0 +1,2 @@
+from .catering import IsOwnerOrReadOnlyCateringPermission
+from .dish import IsOwnerOrReadOnlyDishPermission
