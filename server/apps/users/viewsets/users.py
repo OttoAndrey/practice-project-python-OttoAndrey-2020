@@ -9,6 +9,11 @@ from apps.users.serializers import UsersSerializer
 
 class UsersViewSet(mixins.CreateModelMixin,
                    GenericViewSet):
+    """
+    create:
+    Создаёт объект пользователя. Присваивает ему токен.
+    """
+
     serializer_class = UsersSerializer
     queryset = User.objects.all()
 
@@ -19,6 +24,7 @@ class UsersViewSet(mixins.CreateModelMixin,
         headers = self.get_success_headers(serializer.data)
         token = Token.objects.create(user=serializer.instance)
         return Response({
+            'id': serializer.data['id'],
             'username': serializer.data['username'],
             'token': token.key,
         }, status=status.HTTP_201_CREATED, headers=headers)
