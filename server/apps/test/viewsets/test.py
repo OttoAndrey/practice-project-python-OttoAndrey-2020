@@ -9,5 +9,16 @@ class TestViewSet(mixins.CreateModelMixin,
                   mixins.ListModelMixin,
                   mixins.RetrieveModelMixin,
                   GenericViewSet):
+    """
+        list:
+        Список всех объектов.
+
+        create:
+        Создаёт объект. Поле random_string рассчитывается автоматически.
+
+        retrieve:
+        Отображает только один объект.
+        """
+
     serializer_class = TestSerializer
     queryset = Test.objects.all()
