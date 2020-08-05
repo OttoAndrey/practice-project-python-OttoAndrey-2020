@@ -11,6 +11,7 @@ class Dish(models.Model):
     )
     photo = models.ImageField(
         verbose_name='Фотография',
+        blank=True,
     )
     sum_of_calories = models.FloatField(
         verbose_name='Сумма калорий',
@@ -32,3 +33,8 @@ class Dish(models.Model):
 
     def __str__(self):
         return self.name
+
+    class Meta:
+        verbose_name = 'Блюдо'
+        verbose_name_plural = 'Блюдо'
+        ordering = ('id',)
