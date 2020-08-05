@@ -11,6 +11,7 @@ class Catering(models.Model):
     )
     photo = models.ImageField(
         verbose_name='Фотография',
+        blank=True,
     )
     open_time = models.TimeField(
         verbose_name='Открытие',
@@ -43,7 +44,8 @@ class Catering(models.Model):
     )
     dishes = models.ManyToManyField(
         Dish,
-        verbose_name='Блюда'
+        verbose_name='Блюда',
+        blank=True,
     )
 
     def __str__(self):
