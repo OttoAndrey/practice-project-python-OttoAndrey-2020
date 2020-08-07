@@ -1,9 +1,12 @@
+from django.core.cache import cache
+from rest_framework import status
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
+from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 
 from apps.catering.models import Catering
 from apps.catering.serializers import CateringSerializer
 from apps.main.permissions import IsOwnerOrReadOnlyCateringPermission
-from rest_framework.permissions import IsAuthenticatedOrReadOnly
 
 
 class CateringViewSet(ModelViewSet):
@@ -33,3 +36,15 @@ class CateringViewSet(ModelViewSet):
     queryset = Catering.objects.all()
     permission_classes = (IsAuthenticatedOrReadOnly,
                           IsOwnerOrReadOnlyCateringPermission,)
+
+    def list(self, request, *args, **kwargs):
+        if 'caterings' in cache:
+            results = cache.get('caterings')
+
+        else:
+            caterings = Catering.objects.all()
+            serializer = CateringSerializer(caterings, many=True)
+            results = serializer.data
+            cache.set('caterings', results, timeout=900)
+
+        return Response(results, status=status.HTTP_200_OK)
