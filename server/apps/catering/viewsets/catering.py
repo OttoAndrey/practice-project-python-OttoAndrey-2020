@@ -1,7 +1,6 @@
-from django.core.cache import cache
-from rest_framework import status
+from django.utils.decorators import method_decorator
+from django.views.decorators.cache import cache_page
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
-from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 
 from apps.catering.models import Catering
@@ -37,14 +36,10 @@ class CateringViewSet(ModelViewSet):
     permission_classes = (IsAuthenticatedOrReadOnly,
                           IsOwnerOrReadOnlyCateringPermission,)
 
+    @method_decorator(cache_page(900))
     def list(self, request, *args, **kwargs):
-        if 'caterings' in cache:
-            results = cache.get('caterings')
+        return super(CateringViewSet, self).list(request, *args, **kwargs)
 
-        else:
-            caterings = Catering.objects.all()
-            serializer = CateringSerializer(caterings, many=True)
-            results = serializer.data
-            cache.set('caterings', results, timeout=900)
-
-        return Response(results, status=status.HTTP_200_OK)
+    @method_decorator(cache_page(900))
+    def retrieve(self, request, *args, **kwargs):
+        return super(CateringViewSet, self).retrieve(request, *args, **kwargs)
