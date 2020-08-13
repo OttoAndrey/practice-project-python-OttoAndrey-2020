@@ -163,29 +163,14 @@ if DEBUG:
 # Redis settings
 ##################################################################
 
-# В чате подсказали связать наподобие dj-database-url, но что-то до меня не дошло как это применить для Redis
-# Я понимаю, что с помощью dj_database_url мы для DATABASES получаем данные из docker-compose
-# Но как это для redis применить непонятно
-#REDIS = {'default': os.environ.get('REDIS_HOST')}
+REDIS_HOST = os.environ.get('REDIS_HOST', '127.0.0.1')
 
-
-# Если раскомментировать переменную CAСHES то в браузере на api/catering/ я получу
-# ошибку Error 111 connecting то 127.0.0.1:6379. Connection refused.
-# В интернете пишут, что нужно перезапустить redis. Убивал процесс, заново делал docker-compose build, не помогло
-#
-# Если закомментировать CACHES, то кеширование будет работать, но я так понимаю, что без использования Redis,
-# просто внутренними средствами django
-
-# CACHES = {
-#     "default": {
-#         "BACKEND": "django_redis.cache.RedisCache",
-#         "LOCATION": "redis://127.0.0.1:6379/1",
-#         "OPTIONS": {
-#             "CLIENT_CLASS": "django_redis.client.DefaultClient",
-#             #"SERIALIZER": "django_redis.serializers.json.JSONSerializer",
-#         }
-#     }
-# }
-
-# SESSION_ENGINE = "django.contrib.sessions.backends.cache"
-# SESSION_CACHE_ALIAS = "default"
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": f"redis://{REDIS_HOST}:6379/1",
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+        }
+    }
+}
